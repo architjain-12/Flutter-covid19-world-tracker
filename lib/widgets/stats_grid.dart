@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 class StatsGrid extends StatelessWidget {
+  final int totalCases;
+  final int totalDeaths;
+  final int totalRecovered;
+  final int totalInfected;
+  StatsGrid({this.totalCases , this.totalDeaths , this.totalInfected , this.totalRecovered});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -10,17 +15,17 @@ class StatsGrid extends StatelessWidget {
           Flexible(
             child: Row(
               children: <Widget>[
-                _buildStatCard('Total Cases', '1.81 M', Colors.orange),
-                _buildStatCard('Deaths', '105 K', Colors.red),
+                _buildStatCard('Total Cases', '${totalCases.toString()}', Colors.orange),
+                _buildStatCard('Deaths', '${totalDeaths.toString()}', Colors.red),
               ],
             ),
           ),
           Flexible(
             child: Row(
               children: <Widget>[
-                _buildStatCard('Recovered', '391 K', Colors.green),
-                _buildStatCard('Active', '1.31 M', Colors.lightBlue),
-                _buildStatCard('Critical', 'N/A', Colors.purple),
+                _buildStatCard('Recovered', '${totalRecovered.toString()}', Colors.green),
+                _buildStatCard('Active', '${totalInfected.toString()}', Colors.lightBlue),
+                // _buildStatCard('Critical', 'N/A', Colors.purple),
               ],
             ),
           ),

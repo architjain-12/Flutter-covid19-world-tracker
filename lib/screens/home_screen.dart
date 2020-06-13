@@ -163,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Prevention Tips',
+              'Prevention & Control Tips',
               style: const TextStyle(
                 fontSize: 22.0,
                 fontWeight: FontWeight.w600,
@@ -177,7 +177,30 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: <Widget>[
                           Image.asset(
                             e.keys.first,
-                            height: screenHeight * 0.12,
+                            height: screenHeight * 0.08,
+                          ),
+                          SizedBox(height: screenHeight * 0.015),
+                          Text(
+                            e.values.first,
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.center,
+                          )
+                        ],
+                      ))
+                  .toList(),
+            ),
+            const SizedBox(height: 20.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: prevention2
+                  .map((e) => Column(
+                        children: <Widget>[
+                          Image.asset(
+                            e.keys.first,
+                            height: screenHeight * 0.08,
                           ),
                           SizedBox(height: screenHeight * 0.015),
                           Text(

@@ -171,7 +171,7 @@ class RegionCard extends StatelessWidget {
               FlatButton(
                 onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return StateScreen(stateName: regionName);
+                    return StateScreen(stateName: regionName , totalCases: totalCases, totalDeaths: totalDeaths, totalInfected: totalInfected, totalRecovered: recovered, );
                   }));
                 },
                 child: Icon(Icons.expand_more)

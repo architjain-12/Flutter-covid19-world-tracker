@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:covid19/utilities/http.dart';
 import 'package:covid19/utilities/city_data.dart';
 import 'dart:convert';
+import 'package:covid19/widgets/stats_grid.dart';
+import 'package:covid19/components/city_list.dart';
 
 class StateScreen extends StatefulWidget {
   final stateName;
-  StateScreen({this.stateName});
+  final totalCases;
+  final totalInfected;
+  final totalDeaths;
+  final totalRecovered;
+  StateScreen({this.stateName , this.totalCases , this.totalDeaths , this.totalInfected ,this.totalRecovered});
   @override
   _StateScreenState createState() => _StateScreenState();
 }
@@ -13,9 +19,16 @@ class StateScreen extends StatefulWidget {
 class _StateScreenState extends State<StateScreen> {
   int index;
   String stateName;
-  //var stateData;
-  void getStateName(String sName){
+  int totalCases;
+  int totalInfected;
+  int totalDeaths;
+  int totalRecovered;
+  void getStateData(String sName , int tCases , int tInfected , int tDeaths , int tRecovered){
       stateName = sName;
+      totalCases = tCases;
+      totalInfected = tInfected;
+      totalDeaths = tDeaths;
+      totalRecovered = tRecovered;
   }
   
 
@@ -24,11 +37,12 @@ class _StateScreenState extends State<StateScreen> {
 
   @override
   void initState() {
-    getStateName(widget.stateName);
+    getStateData(widget.stateName , widget.totalCases , widget.totalInfected , widget.totalDeaths , widget.totalRecovered);
     _getCities();
     super.initState();
   }
-    dynamic getStateData() async{
+
+    dynamic getStateDataforDistricts() async{
       FetchData fetchData = FetchData('https://api.covid19india.org/state_district_wise.json');
        var stateData = await fetchData.getData();
       return stateData;
@@ -47,19 +61,15 @@ class _StateScreenState extends State<StateScreen> {
           break;
         }
       }
-      // print(districtList);
       return districtList;
     }
 
     Future<List<City>> _getCities() async {
       var districtList = getDistricts();
-      var stateData = await getStateData();
-      // print(stateData['$stateName']['districtData']['${districtList[2]}']);
+      var stateData = await getStateDataforDistricts();
         List<City> cityList = [];
         for(var i=0 ; i<districtList.length ; i++)
           {
-            // print(districtList[i]);
-            // print(stateData['$stateName']['districtData']['${districtList[i]}']);
             if(stateData['$stateName']['districtData']['${districtList[i]}'] != null){
             var districtName = districtList[i].toString();
             int activeCases = stateData['$stateName']['districtData']['${districtList[i]}']['active'].toInt();
@@ -73,30 +83,57 @@ class _StateScreenState extends State<StateScreen> {
             else{
               continue;
             }
-            // for(var cityDatafromJSON in stateData['$stateName']['districtData']['${districtList[i]}'])
-            //   {
-            //     City cityData = City(districtList[i], cityDatafromJSON['active'].toInt(), cityDatafromJSON['confirmed'].toInt() , cityDatafromJSON['deceased'].toInt() , cityDatafromJSON['recovered'].toInt());
-            //     cityList.add(cityData);
-            //   }
           }
-            // print(cityList);
       return cityList;
       }
 
 
   @override
   Widget build(BuildContext context) {
-    getStateData();
+    getStateDataforDistricts();
     return SafeArea(
       child: Scaffold(
         body: Container(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Center(child: Text('$stateName')),
-              
+              SizedBox(height: 10.0,),
+              Row(
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.arrow_back_ios),
+                    onPressed: (){
+                    Navigator.pop(context);
+                  },
+                  ),
+                  Container(child: Center(child: Text('$stateName' , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 25.0),))),
+                ],
+              ),
+
+
               Container(
-              child:  FutureBuilder(
+                margin: EdgeInsets.only(top:10),
+                  child: StatsGrid(totalCases: totalCases , totalDeaths: totalDeaths, totalInfected: totalInfected , totalRecovered: totalRecovered),
+              ),
+
+
+
+              Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Text(
+                      'Districts',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25.0
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              FutureBuilder(
                 future: _getCities(),
                 builder: (BuildContext context , AsyncSnapshot snapshot){
                   if(snapshot.data == null)
@@ -116,24 +153,23 @@ class _StateScreenState extends State<StateScreen> {
                         itemCount: snapshot.data.length,
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context , int index){
-                            return ListTile(
-                              title: Text(snapshot.data[index].cityName.toString(), style: TextStyle(color: Colors.black , fontWeight: FontWeight.bold)),
-                              subtitle: Text('Confirmed: ${snapshot.data[index].confirmed.toString()} \nDeceased: ${snapshot.data[index].deceased.toString()} \nRecovered ${snapshot.data[index].recovered.toString()}'),
-                            );
-                            // return RegionCard(
-                            //  regionName: snapshot.data[index].name,
-                            //  totalCases: snapshot.data[index].totalCases,
-                            //  totalDeaths: snapshot.data[index].totalDeaths,
-                            //  recovered: snapshot.data[index].totalRecovered,
+                            // return ListTile(
+                            //   title: Text(snapshot.data[index].cityName.toString(), style: TextStyle(color: Colors.black , fontWeight: FontWeight.bold)),
+                            //   subtitle: Text('Confirmed: ${snapshot.data[index].confirmed.toString()} \nDeceased: ${snapshot.data[index].deceased.toString()} \nRecovered ${snapshot.data[index].recovered.toString()}'),
+                            // );
+                            return CityCardList(
+                             cityName: snapshot.data[index].cityName,
+                             totalCases: snapshot.data[index].active,
+                             totalDeaths: snapshot.data[index].deceased,
+                             totalRecovered: snapshot.data[index].recovered,
                             //  totalInfected: snapshot.data[index].totalInfected,
-                            //   );
+                              );
                         }
                       ),
                   );
                   }
                 }
               ),
-            ),
             FlatButton(
               onPressed: () => Navigator.pop(context),
                 child: Icon(Icons.expand_less , size: 30,)
