@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:covid19/utilities/http.dart';
-import 'package:covid19/utilities/state_data.dart';
+import 'package:covid19/utilities/city_data.dart';
 import 'dart:convert';
 
 class StateScreen extends StatefulWidget {
@@ -13,32 +13,31 @@ class StateScreen extends StatefulWidget {
 class _StateScreenState extends State<StateScreen> {
   int index;
   String stateName;
-  var stateData;
- var districtList;
+  //var stateData;
   void getStateName(String sName){
       stateName = sName;
   }
   
 
   Map<String,dynamic> data = jsonDecode(cities);
-
+  
 
   @override
   void initState() {
     getStateName(widget.stateName);
+    _getCities();
     super.initState();
   }
-  void getState() async{
+    dynamic getStateData() async{
       FetchData fetchData = FetchData('https://api.covid19india.org/state_district_wise.json');
-      stateData = await fetchData.getData();
-      getDistricts();
+       var stateData = await fetchData.getData();
+      return stateData;
     }
 
-    void getDistricts(){
-    districtList=[];
+    dynamic getDistricts(){
+     var districtList=[];
       for (var i=0 ; i<data['states'].length ; i+=1)
       {
-        //print(data['states'][i]['state']);
         if(data['states'][i]['state'].toString() == stateName )
         {
           for (var j = 0; j<data['states'][i]['districts'].length ; j++)
@@ -48,18 +47,37 @@ class _StateScreenState extends State<StateScreen> {
           break;
         }
       }
+      // print(districtList);
+      return districtList;
     }
 
     Future<List<City>> _getCities() async {
+      var districtList = getDistricts();
+      var stateData = await getStateData();
+      // print(stateData['$stateName']['districtData']['${districtList[2]}']);
         List<City> cityList = [];
-        for(var i=0 ; i<districtList.length ; i+=1)
+        for(var i=0 ; i<districtList.length ; i++)
           {
-            var district = districtList[i];
-            for(var cities in stateData['$stateName']['districtData']['$district'])
-              {
-                City cityData = City(districtList[i], cities['active'].toInt(), cities['confirmed'].toInt() , cities['deceased'].toInt() , cities['recovered'].toInt());
-                cityList.add(cityData);
-              }
+            // print(districtList[i]);
+            // print(stateData['$stateName']['districtData']['${districtList[i]}']);
+            if(stateData['$stateName']['districtData']['${districtList[i]}'] != null){
+            var districtName = districtList[i].toString();
+            int activeCases = stateData['$stateName']['districtData']['${districtList[i]}']['active'].toInt();
+            int deceasedCases = stateData['$stateName']['districtData']['${districtList[i]}']['deceased'].toInt();
+            int confirmedCases = stateData['$stateName']['districtData']['${districtList[i]}']['confirmed'].toInt();
+            int recoveredCases = stateData['$stateName']['districtData']['${districtList[i]}']['recovered'].toInt();
+            City cityData = City(districtName , activeCases , confirmedCases , deceasedCases , recoveredCases);
+            cityList.add(cityData);
+            
+            }
+            else{
+              continue;
+            }
+            // for(var cityDatafromJSON in stateData['$stateName']['districtData']['${districtList[i]}'])
+            //   {
+            //     City cityData = City(districtList[i], cityDatafromJSON['active'].toInt(), cityDatafromJSON['confirmed'].toInt() , cityDatafromJSON['deceased'].toInt() , cityDatafromJSON['recovered'].toInt());
+            //     cityList.add(cityData);
+            //   }
           }
             // print(cityList);
       return cityList;
@@ -68,7 +86,7 @@ class _StateScreenState extends State<StateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    getState();
+    getStateData();
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -76,6 +94,7 @@ class _StateScreenState extends State<StateScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Center(child: Text('$stateName')),
+              
               Container(
               child:  FutureBuilder(
                 future: _getCities(),
@@ -98,8 +117,8 @@ class _StateScreenState extends State<StateScreen> {
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context , int index){
                             return ListTile(
-                              title: Text(snapshot.data[index].deceased, style: TextStyle(color: Colors.black)),
-                              subtitle: Text(snapshot.data[index].active.toString()),
+                              title: Text(snapshot.data[index].cityName.toString(), style: TextStyle(color: Colors.black , fontWeight: FontWeight.bold)),
+                              subtitle: Text('Confirmed: ${snapshot.data[index].confirmed.toString()} \nDeceased: ${snapshot.data[index].deceased.toString()} \nRecovered ${snapshot.data[index].recovered.toString()}'),
                             );
                             // return RegionCard(
                             //  regionName: snapshot.data[index].name,
