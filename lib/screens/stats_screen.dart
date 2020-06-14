@@ -1,9 +1,7 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:covid19/screens/india_tracker.dart';
 import 'package:flutter/material.dart';
-import 'package:covid19/config/palette.dart';
 import 'package:covid19/config/styles.dart';
-import 'package:covid19/widgets/widgets.dart';
 import 'package:covid19/screens/world_screen.dart';
 
 class StatsScreen extends StatefulWidget {

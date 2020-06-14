@@ -162,20 +162,19 @@ class RegionCard extends StatelessWidget {
           ),
         ],
       ),
-          SizedBox(
-            height: 10.0,
-          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              FlatButton(
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return StateScreen(stateName: regionName , totalCases: totalCases, totalDeaths: totalDeaths, totalInfected: totalInfected, totalRecovered: recovered, );
-                  }));
-                },
-                child: Icon(Icons.expand_more)
-                ),
+              Expanded(
+                              child: FlatButton(
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return StateScreen(stateName: regionName , totalCases: totalCases, totalDeaths: totalDeaths, totalInfected: totalInfected, totalRecovered: recovered, );
+                    }));
+                  },
+                  child: Icon(Icons.expand_more)
+                  ),
+              ),
             ],
           ),
        ],

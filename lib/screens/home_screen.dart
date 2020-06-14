@@ -4,7 +4,8 @@ import 'package:covid19/config/palette.dart';
 import 'package:covid19/config/styles.dart';
 import 'package:covid19/data/data.dart';
 import 'package:covid19/widgets/widgets.dart';
-//import 'package:intent/intent.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -49,13 +50,33 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
-                  'COVID-19',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+                // CircleAvatar(
+                //   backgroundColor: Colors.white,
+                //   child: Hero(tag:'logo',child: Image.asset('assets/images/splash_logo.png' , scale: 2.5,))),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'COVID-19',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Times New Roman',
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'WORLD TRACKER',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Times New Roman',
+                        fontSize: 15.0,
+                        letterSpacing: 1.2,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
                 /*CountryDropdown(
                   countries: ['IN'],
@@ -108,8 +129,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         vertical: 10.0,
                         horizontal: 20.0,
                       ),
-                      onPressed: () {
-
+                      onPressed: () async{
+                          const url = 'tel:<1075>';
+                          if (await canLaunch(url)) {
+                            await launch(url);
+                          } else {
+                            throw 'Could not launch $url';
+                          }
                       },
                       color: Colors.red,
                       shape: RoundedRectangleBorder(
@@ -125,25 +151,33 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       textColor: Colors.white,
                     ),
+                    SizedBox(width:5),
                     FlatButton.icon(
                       padding: const EdgeInsets.symmetric(
                         vertical: 10.0,
                         horizontal: 20.0,
                       ),
-                      onPressed: () {},
-                      color: Colors.white,
+                      onPressed: () async{
+                          const url = 'https://api.whatsapp.com/send?phone=919013353535&text=Hi&source=&data=&app_absent=';
+                          if (await canLaunch(url)) {
+                            await launch(url);
+                          } else {
+                            throw 'Could not launch $url';
+                          }
+                      },
+                      color: Colors.green,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       icon: const Icon(
-                        Icons.chat,
-                        color: Colors.blueAccent,
+                        FontAwesomeIcons.whatsapp,
+                        color: Colors.white,
                       ),
                       label: Text(
-                        'Send SMS',
+                        'Whatsapp',
                         style: Styles.buttonTextStyle,
                       ),
-                      textColor: Colors.blueAccent,
+                      textColor: Colors.white,
                     ),
                   ],
                 ),

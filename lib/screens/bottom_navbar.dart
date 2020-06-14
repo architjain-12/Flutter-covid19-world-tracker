@@ -1,8 +1,9 @@
+import 'package:covid19/screens/news_screen.dart';
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import 'package:covid19/screens/myth_busters.dart';
 import 'package:covid19/screens/stats_screen.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
@@ -17,7 +18,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     HomeScreen(),
     StatsScreen(),
     MythBusters(),
-    Scaffold(),
+    NewsScreen(),
   ];
 
 
@@ -35,7 +36,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.grey,
         elevation: 10.0,
-        items: [Icons.home, Icons.insert_chart, Icons.description, Icons.info]
+        items: [Icons.home, Icons.insert_chart, Icons.description, FontAwesomeIcons.newspaper]
             .asMap()
             .map((key, value) => MapEntry(
                   key,

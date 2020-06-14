@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:covid19/utilities/http.dart';
 import 'package:covid19/components/india_region_card.dart';
 import 'package:covid19/utilities/india_region_data.dart';
-import 'package:flutter/scheduler.dart';
-
+import 'package:covid19/screens/state_screen.dart';
 class IndiaTracker extends StatefulWidget {
   @override
   _IndiaTrackerState createState() => _IndiaTrackerState();
@@ -67,7 +66,7 @@ class _IndiaTrackerState extends State<IndiaTracker> {
                 child: Text('India' ,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 25.0,
+                  fontSize: 28.0,
                   color: Colors.white,
                 ),
                 ),
@@ -301,6 +300,7 @@ class _IndiaTrackerState extends State<IndiaTracker> {
                        builder: (BuildContext context , AsyncSnapshot snapshot){
                          if(snapshot.data == null)
                          {
+                           getIndia();
                            return Container(
                              child: Center(
                                child: Padding(
@@ -320,6 +320,11 @@ class _IndiaTrackerState extends State<IndiaTracker> {
                                    return ListTile(
                                      title: Text(snapshot.data[index].name , style: TextStyle(color: Colors.grey[200] , fontWeight: FontWeight.bold , fontSize: 18.0),),
                                      subtitle: Text('Cases: ${snapshot.data[index].totalCases.toString()} \nRecovered: ${snapshot.data[index].totalRecovered} \nDeaths: ${snapshot.data[index].totalDeaths}',style: TextStyle(color: Colors.white70 , fontSize: 14.0)),
+                                     onTap: (){
+                                       Navigator.push(context, MaterialPageRoute(builder: (context){
+                                          return StateScreen(stateName: snapshot.data[index].name , totalCases: snapshot.data[index].totalCases, totalDeaths: snapshot.data[index].totalDeaths, totalInfected: snapshot.data[index].totalInfected, totalRecovered: snapshot.data[index].totalRecovered, );
+                                     }));
+                                     }
                                    );
                                  }
                                  else{
@@ -343,257 +348,5 @@ class _IndiaTrackerState extends State<IndiaTracker> {
         ],
       ),
     );
-
-
-
-
-
-
-
-    // return SafeArea(
-    //       child: Scaffold(
-    //     body: Center(
-    //       child: Column(
-    //        children: <Widget>[
-    //           Row(
-    //             children: <Widget>[
-    //               Expanded(
-    //                 child: Padding(
-    //                   padding: const EdgeInsets.all(18.0),
-    //                   child: Container(
-    //                     width: double.infinity,
-    //                   padding: EdgeInsets.all(10.0),
-    //                   decoration: BoxDecoration(
-    //                     gradient: LinearGradient(
-    //                     begin: Alignment.topRight,
-    //                     end: Alignment.bottomLeft,
-    //                     colors: [Colors.indigo, Colors.blue ,Colors.cyan]),        
-    //                     borderRadius: BorderRadius.circular(12.0),
-    //                     boxShadow: [
-    //                         BoxShadow(
-    //                             color: Colors.grey[700],
-    //                             blurRadius: 2.0,
-    //                             spreadRadius: 1.0,
-    //                             offset: Offset(2.0, 2.0), // shadow direction: bottom right
-    //                         )
-    //                     ],
-    //                   ),
-    //                   child: Column(
-    //                     children: <Widget>[
-    //                       Image.asset('covid19/assets/images/virus.png'),
-    //                       Row(
-    //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                         children: <Widget>[
-    //                           Padding(
-    //                             padding: const EdgeInsets.fromLTRB(12.0 , 0 ,0,0),
-    //                             child: Row(
-    //                               children: <Widget>[
-    //                                 Image.asset('https://disease.sh/assets/img/flags/in.png'),
-    //                                 Text('India' ,
-    //                                 style: TextStyle(
-    //                                   fontWeight: FontWeight.bold,
-    //                                   fontSize: 25.0,
-    //                                   color: Colors.white,
-    //                                 ),
-    //                                 ),
-    //                               ],
-    //                             ),
-    //                           ),
-    //                           FlatButton(
-    //                             onPressed:(){
-    //                               setState(() {
-    //                                 updateTime = DateTime.now().toString();
-    //                               });
-    //                               getIndia();
-    //                             },
-    //                             child: Padding(
-    //                               padding: const EdgeInsets.fromLTRB(25.0,0,0,0),
-    //                               child: Icon(Icons.refresh,
-    //                               color: Colors.white,
-    //                               ),
-    //                             ),
-    //                             ),
-    //                         ],
-    //                       ),
-    //                       SizedBox(
-    //                         height: 10.0,
-    //                         child: Divider(
-    //                           indent: 12.0,
-    //                           endIndent: 18.0,
-    //                           color: Colors.white,
-    //                         ),
-    //                       ),
-    //                       SizedBox(
-    //                         height: 15.0,
-    //                       ),
-    //                       Row(
-    //                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //                         crossAxisAlignment: CrossAxisAlignment.start,
-    //                         children: <Widget>[
-    //                           Column(
-    //                             children: <Widget>[
-    //                               Row(
-    //                                 children: <Widget>[
-    //                                   Text('Confirmed' ,
-    //                                   style: TextStyle(
-    //                                     color: Colors.white,
-    //                                     fontWeight: FontWeight.bold,
-    //                                     fontSize: 17.0,
-    //                                   ),
-    //                                   ),
-    //                                 ],
-    //                               ),
-    //                               Row(
-    //                                 children: <Widget>[
-    //                                   Text('$totalCases' ,
-    //                                   style: TextStyle(
-    //                                     color: Colors.white,
-    //                                     fontWeight: FontWeight.bold,
-    //                                     fontSize: 20.0,
-    //                                   ),
-    //                                   ),
-    //                                 ],
-    //                               ),
-    //                             ],
-    //                           ),
-    //                           SizedBox(
-    //                 width: 10.0,
-    //                 height: 80.0,
-    //                 // child: VerticalDivider(
-    //                 //       color: Colors.white,
-    //                 //),
-    //               ),
-    //                       Column(
-    //                         children: <Widget>[
-    //                           Row(
-    //                             children: <Widget>[
-    //                               Text('Recovered' ,
-    //                               style: TextStyle(
-    //                                 color: Colors.green[300],
-    //                                 fontWeight: FontWeight.bold,
-    //                                 fontSize: 17.0,
-    //                               ),
-    //                               ),
-    //                             ],
-    //                           ),
-    //                           Row(
-    //                             children: <Widget>[
-    //                               Text('$totalRecovered' ,
-    //                               style: TextStyle(
-    //                                 color: Colors.green[300],
-    //                                 fontWeight: FontWeight.bold,
-    //                                 fontSize: 20.0,
-    //                               ),
-    //                               ),
-    //                             ],
-    //                           ),
-    //                         ],
-    //                       ),
-    //                       SizedBox(
-    //                         width: 10.0,
-    //                         height: 80.0,
-    //                         // child: VerticalDivider(
-    //                         //       color: Colors.white,
-    //                         //),
-    //                       ),
-    //                       Column(
-    //                         children: <Widget>[
-    //                           Row(
-    //                             children: <Widget>[
-    //                               Text('Death' ,
-    //                               style: TextStyle(
-    //                                 color: Colors.red,
-    //                                 fontWeight: FontWeight.bold,
-    //                                 fontSize: 17.0,
-    //                               ),
-    //                               ),
-    //                             ],
-    //                           ),
-    //                           Row(
-    //                             children: <Widget>[
-    //                               Text('$totalDeaths' ,
-    //                               style: TextStyle(
-    //                                 color: Colors.red,
-    //                                 fontWeight: FontWeight.bold,
-    //                                 fontSize: 20.0,
-    //                               ),
-    //                             ),
-    //                           ],
-    //                           ),
-    //                            ],
-    //                           ),
-    //                         ],
-    //                       ),
-    //                       Row(
-    //                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                                 children: <Widget>[
-    //                                   Text('Active Cases: $active' ,
-    //                                   style: TextStyle(
-    //                                     color: Colors.white,
-    //                                     fontWeight: FontWeight.bold,
-    //                                     fontFamily: 'Times New Roman',
-    //                                     fontSize: 18.0,
-    //                                   ),
-    //                                   ),
-    //                                   Text('Last Updated\n ${updateTime.substring(11, 19)}' , 
-    //                                     style: TextStyle(
-    //                                       color: Colors.white,
-    //                                       fontSize: 12.0,
-    //                                       fontWeight: FontWeight.bold,
-    //                                     ),
-    //                                   ),
-    //                                 ],
-    //                               ),
-    //                    ],
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //           ],
-    //         ),
-    //         Container(
-    //           child: FutureBuilder(
-    //             future: _getStates(),
-    //             builder: (BuildContext context , AsyncSnapshot snapshot){
-    //               if(snapshot.data == null)
-    //               {
-    //                 return Container(
-    //                   child: Center(
-    //                     child: Padding(
-    //                       padding: const EdgeInsets.only(top: 200.0),
-    //                       child: Text('Loading...'),
-    //                     ),
-    //                   ),
-    //                 );
-    //               }
-    //               else{
-    //               return Expanded(
-    //                     child: ListView.builder(
-    //                     itemCount: snapshot.data.length,
-    //                     shrinkWrap: true,
-    //                     itemBuilder: (BuildContext context , int index){
-    //                         // return ListTile(
-    //                         //   title: Text(snapshot.data[index].name),
-    //                         //   subtitle: Text(snapshot.data[index].totalCases.toString()),
-    //                         // );
-    //                         return RegionCard(
-    //                          regionName: snapshot.data[index].name,
-    //                          totalCases: snapshot.data[index].totalCases,
-    //                          totalDeaths: snapshot.data[index].totalDeaths,
-    //                          recovered: snapshot.data[index].totalRecovered,
-    //                          totalInfected: snapshot.data[index].totalInfected,
-    //                           );
-    //                     }
-    //                   ),
-    //               );
-    //               }
-    //             }
-    //           ),
-    //         ), 
-    //       ],
-    //     ),
-    //   ),
-    //   ),
-    // );
   }
 }

@@ -22,7 +22,7 @@ class CountryCard extends StatelessWidget {
             width: double.infinity,
           //padding: EdgeInsets.all(10.0),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Colors.grey[100],
             //border: Border.all(),
             // gradient: LinearGradient(
             // begin: Alignment.topRight,
