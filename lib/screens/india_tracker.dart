@@ -50,6 +50,11 @@ class _IndiaTrackerState extends State<IndiaTracker> {
       return regionList;
       }
      
+     @override
+  void initState() { 
+    getIndia();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -300,7 +305,6 @@ class _IndiaTrackerState extends State<IndiaTracker> {
                        builder: (BuildContext context , AsyncSnapshot snapshot){
                          if(snapshot.data == null)
                          {
-                           getIndia();
                            return Container(
                              child: Center(
                                child: Padding(

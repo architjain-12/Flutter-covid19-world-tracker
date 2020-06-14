@@ -172,6 +172,7 @@ class _StateScreenState extends State<StateScreen> {
                             //   title: Text(snapshot.data[index].cityName.toString(), style: TextStyle(color: Colors.black , fontWeight: FontWeight.bold)),
                             //   subtitle: Text('Confirmed: ${snapshot.data[index].confirmed.toString()} \nDeceased: ${snapshot.data[index].deceased.toString()} \nRecovered ${snapshot.data[index].recovered.toString()}'),
                             // );
+                            print(snapshot.data.length);
                             return CityCardList(
                              cityName: snapshot.data[index].cityName,
                              totalCases: snapshot.data[index].confirmed,

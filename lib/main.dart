@@ -60,6 +60,7 @@ void initState() {
             radius: 80.0,
             child: Expanded(child: Image.asset('assets/images/splash_logo.png')),
             ),
+            Text('Track coroNa' , style: TextStyle(color: Colors.white ,fontSize: 28.0 , fontFamily: 'Times New Roman')),
           Column(
             children: <Widget>[
               Text('COVID-19' , style: TextStyle(color: Colors.white ,fontSize: 18.0),),

@@ -16,7 +16,7 @@ class _NewsScreenState extends State<NewsScreen> {
       var news = await fetchData.getData();
       List<News> newsList = [];
       
-      for(var i=0 ; i<15 ; i++){
+      for(var i=0 ; i<20 ; i++){
         News newsData = News(source: news['articles'][i]['source']['name'] , author: news['articles'][i]['author'] , title: news['articles'][i]['title'] , description: news['articles'][i]['description'] , url: news['articles'][i]['url'] , thumbnail: news['articles'][i]['urlToImage'] , publishDate: news['articles'][i]['publishedAt']);
         newsList.add(newsData);
         
@@ -61,7 +61,7 @@ class _NewsScreenState extends State<NewsScreen> {
                   else{
                     return Expanded(
                       child: ListView.builder(
-                        itemCount: 15,
+                        itemCount: 20,
                         itemBuilder: (BuildContext context , int index){
                           // return ListTile(
                           //   // leading: Image.network('${snapshot.data[index].url}'),

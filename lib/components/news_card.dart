@@ -22,6 +22,7 @@ class NewsCard extends StatelessWidget {
           child:  Column(
             children: [
                Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                    Padding(
                     padding:  EdgeInsets.only(left: 4.0),

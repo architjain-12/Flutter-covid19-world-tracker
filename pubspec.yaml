@@ -1,5 +1,5 @@
 name: covid19
-description: A new Flutter project.
+description: A Covid19 World Tracker.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -35,9 +35,6 @@ dependencies:
   bubble_tab_indicator: ^0.1.4
   url_launcher: ^5.4.10
   timeago: ^2.0.26
-  # android_intent: ^0.3.7+2
-  # intent: ^1.3.4
-  #fl_chart: ^0.9.4
 
 
 dev_dependencies:
@@ -60,7 +57,7 @@ flutter:
     - assets/
     - assets/images/
     - assets/images/myths/
-    - assets/districts.json
+    
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

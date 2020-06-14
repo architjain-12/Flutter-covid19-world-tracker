@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:covid19/config/palette.dart';
 import 'package:covid19/config/styles.dart';
 import 'package:covid19/data/data.dart';
-import 'package:covid19/widgets/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,7 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        //appBar: CustomAppBar(),
         body: CustomScrollView(
           physics: ClampingScrollPhysics(),
           slivers: <Widget>[
@@ -58,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'COVID-19',
+                      'Track coroNa',
                       style: const TextStyle(
                         color: Colors.white,
                         fontFamily: 'Times New Roman',
@@ -67,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Text(
-                      'WORLD TRACKER',
+                      'THE WORLD TRACKER',
                       style: const TextStyle(
                         color: Colors.white,
                         fontFamily: 'Times New Roman',
